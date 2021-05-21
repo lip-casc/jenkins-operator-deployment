@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - 0-namespace.yaml
-  - https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/crds/jenkins_v1alpha2_jenkins_crd.yaml
-  - https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/all-in-one-v1alpha2.yaml
+  - namespace.yaml
+  - jenkins-crd/jenkins_v1alpha2_jenkins_crd.yaml
+  - jenkins-operator/all-in-one-v1alpha2.yaml
   - pvc.yaml
   - jenkins_instance.yaml
