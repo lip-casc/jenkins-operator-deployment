@@ -1,7 +1,8 @@
 apiVersion: jenkins.io/v1alpha2
 kind: Jenkins
 metadata:
-  name: example
+  name: jenkins-prod
+  namespace: jenkins
 spec:
   service:
     type: "NodePort"
