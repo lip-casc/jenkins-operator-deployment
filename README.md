@@ -48,7 +48,7 @@ Once Jenkins Operator is up and running let’s deploy the actual Jenkins instan
 
     kubectl -n jenkins create -f jenkins_instance.yaml
 
-## 6. Step over 4. and 5. and deploy both using Kustomize
+## 6. Step over 2., 3., 4. and 5. and deploy all using Kustomize
 
 To view Resources found in a directory containing a kustomization file (kustomization.yaml), run the following command:
 
