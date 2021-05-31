@@ -8,7 +8,28 @@ spec:
     type: "NodePort"
     port: 8080
     nodePort: 32541
+  configurationAsCode:
+    enabled: true
+    configurations: 
+    - name: jenkins-operator-user-configuration
+      namespace: jenkins
+    secret:
+      name: "user-config-secrets"
+  groovyScripts:
+    configurations:
+      - name: jenkins-operator-user-configuration
+    secret:
+      name: "user-config-secrets"
   master:
+    # notifications:
+    # - level: info
+    #   verbose: true
+    #   name: slack
+    #   slack:
+    #     webHookURLSecretKeySelector:
+    #       secret:
+    #         name: jenkins-operator-notification-data
+    #       key: url
     basePlugins:
     - name: kubernetes
       version: "1.28.6"
@@ -24,6 +45,9 @@ spec:
       version: "1.50"
     - name: kubernetes-credentials-provider
       version: "0.15"
+    plugins:
+      - name: simple-theme-plugin
+        version: 0.5.1
     securityContext:
       runAsUser: 1000
       fsGroup: 1000
