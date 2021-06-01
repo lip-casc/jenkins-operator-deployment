@@ -7,6 +7,7 @@ stringData:
   EXECUTORS_AMOUNT: "6"
   SYSTEM_MESSAGE: "Tiago, isto é secreto!"
 
+
 ---
 
 apiVersion: v1
@@ -42,6 +43,96 @@ data:
     decorator.save();
 
     jenkins.save()
+  # 2-matrix-auth.yaml: |
+  #   jenkins:
+  #     authorizationStrategy:
+  #       projectMatrix:
+  #         permissions:
+  #         - "Overall/Read:authenticated"
+  #         - "Overall/Administer:jenkins-operator"
+  #         - "Agent/Build:authenticated"
+  #         - "Credentials/View:authenticated"
+  #         - "Job/Build:authenticated"
+  #         - "Job/Cancel:authenticated"
+  #         - "Job/Discover:authenticated"
+  #         - "Job/Read:authenticated"
+  #         - "Job/Workspace:authenticated"
+  #         - "Lockable Resources/Reserve:authenticated"
+  #         - "Lockable Resources/Unlock:authenticated"
+  #         - "Lockable Resources/View:authenticated"
+  #         - "Run/Delete:authenticated"
+  #         - "Run/Replay:authenticated"
+  #         - "Run/Update:authenticated"
+  #         - "SCM/Tag:authenticated"
+  #         - "View/Configure:authenticated"
+  #         - "View/Create:authenticated"
+  #         - "View/Delete:authenticated"
+  #         - "View/Read:authenticated"
   1-system-message.yaml: |
     jenkins:
       systemMessage: ${SYSTEM_MESSAGE}
+  # 3-configure-github-oauth.groovy: |
+  #   import hudson.security.SecurityRealm
+  #   import org.jenkinsci.plugins.GithubSecurityRealm
+  #   String githubWebUri = 'https://github.com'
+  #   String githubApiUri = 'https://api.github.com'
+  #   String clientID = 'f4854dc98525b877e06e'
+  #   String clientSecret = 'ad1c96751ba38e5119c3fa5a62b4d49f55e76702'
+  #   String oauthScopes = 'read:org'
+  #   SecurityRealm github_realm = new GithubSecurityRealm(githubWebUri, githubApiUri, clientID, clientSecret, oauthScopes)
+  #   //check for equality, no need to modify the runtime if no settings changed
+  #   if(!github_realm.equals(Jenkins.instance.getSecurityRealm())) {
+  #       Jenkins.instance.setSecurityRealm(github_realm)
+  #       Jenkins.instance.save()
+    # }
+# 3-configure-github-authorization-strategy.groovy: |
+#     import org.jenkinsci.plugins.GithubAuthorizationStrategy
+#     import hudson.security.AuthorizationStrategy
+
+#     //permissions are ordered similar to web UI
+#     //Admin User Names
+#     String adminUserNames = 'tiagofglip'
+#     //Participant in Organization
+#     String organizationNames = ''
+#     //Use Github repository permissions
+#     boolean useRepositoryPermissions = true
+#     //Grant READ permissions to all Authenticated Users
+#     boolean authenticatedUserReadPermission = true
+#     //Grant CREATE Job permissions to all Authenticated Users
+#     boolean authenticatedUserCreateJobPermission = true
+#     //Grant READ permissions for /github-webhook
+#     boolean allowGithubWebHookPermission = true
+#     //Grant READ permissions for /cc.xml
+#     boolean allowCcTrayPermission = true
+#     //Grant READ permissions for Anonymous Users
+#     boolean allowAnonymousReadPermission = true
+#     //Grant ViewStatus permissions for Anonymous Users
+#     boolean allowAnonymousJobStatusPermission = true
+
+#     AuthorizationStrategy github_authorization = new GithubAuthorizationStrategy(adminUserNames,
+#         authenticatedUserReadPermission,
+#         useRepositoryPermissions,
+#         authenticatedUserCreateJobPermission,
+#         organizationNames,
+#         allowGithubWebHookPermission,
+#         allowCcTrayPermission,
+#         allowAnonymousReadPermission,
+#         allowAnonymousJobStatusPermission)
+        
+#     //check for equality, no need to modify the runtime if no settings changed
+#     if(!github_authorization.equals(Jenkins.instance.getAuthorizationStrategy())) {
+#         Jenkins.instance.setAuthorizationStrategy(github_authorization)
+#         Jenkins.instance.save()
+#     }
+
+
+  6-system-message.yaml: |
+    jenkins:
+      securityRealm:
+        local:
+          allowsSignup: false
+          users:
+            - id: ${user1-name}
+              password: ${user1-pass}
+            - id: ${user2-name}
+              password: ${user2-pass}
