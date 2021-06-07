@@ -1,5 +1,5 @@
 # jenkins-operator-deployment
-Jenkins-operator deployment on Kubernetes.
+Jenkins-Operator deployment on Kubernetes.
 
 This repository is based on jenkins official documentation: [https://jenkinsci.github.io/kubernetes-operator/](https://jenkinsci.github.io/kubernetes-operator/)
 
@@ -18,7 +18,7 @@ The Custom Resource Definition (CRD) API has been introduced to Kubernetes in v1
 
 Install Jenkins Custom Resource Definition:
 
-    kubectl apply -f https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/crds/jenkins_v1alpha2_jenkins_crd.yaml
+    kubectl -n jenkins apply -f jenkins-crd/jenkins_v1alpha2_jenkins_crd.yaml
 
 
 ## 3. Deploy Jenkins Operator Using YAML’s
@@ -27,35 +27,41 @@ Create a namespace for the operator:
 
     kubectl create namespace jenkins
 
-Apply Service Account and RBAC roles:
+Apply Service Account and RBAC roles (Jenkins Operator):
 
-    kubectl -n jenkins apply -f https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/all-in-one-v1alpha2.yaml
+    kubectl -n jenkins apply -f jenkins-operator/all-in-one-v1alpha2.yaml
 
 Watch Jenkins Operator instance being created:
 
     kubectl -n jenkins get pods -w
 
 
-## 4. Create PVC
 
-Run the following command:
+## 4. Add some initial jenkins configurations (ConfigMap)
+    
+Configure jenkins instance adding a ConfigMap to change the layout and add new users, among others things:
+
+    kubectl -n jenkins apply -f user-configurations/jenkins-operator-user-configuration.yaml
+
+
+## 5. Add kubernetes Secrets
+
+Usernames and their passwords, as also slack chat access:
+
+    kubectl -n jenkins apply -f users_accounts/jenkins-conf-secrets.yaml
+
+
+## 6. Create PVC
+
+Run the following command to create a new volume to store backup data:
 
     kubectl -n jenkins create -f pvc.yaml
 
-## 5. Deploy Jenkins Instance
+## 7. Deploy Jenkins Instance
 
-Once Jenkins Operator is up and running let’s deploy the actual Jenkins instance. Use the **jenkins_instance.yaml** located in the repository:
+Once Jenkins Operator is up and running let’s deploy the Jenkins instance:
 
     kubectl -n jenkins create -f jenkins_instance.yaml
 
-## 6. Step over 2., 3., 4. and 5. and deploy all using Kustomize
-
-To view Resources found in a directory containing a kustomization file (kustomization.yaml), run the following command:
-
-    kubectl kustomize .
-    
-To apply those Resources, run kubectl apply with --kustomize or -k flag:
-
-    kubectl apply -k .
 
 
