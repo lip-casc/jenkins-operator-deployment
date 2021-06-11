@@ -1,7 +1,7 @@
 apiVersion: jenkins.io/v1alpha2
 kind: Jenkins
 metadata:
-  name: example
+  name: github
   namespace: jenkins
 spec:
   notifications:
@@ -16,18 +16,18 @@ spec:
   service:
     type: "NodePort"
     port: 8080
-    nodePort: 32541
+    nodePort: 32543
   configurationAsCode:
     enabled: true
     configurations: 
-    - name: jenkins-operator-user-configuration
+    - name: jenkins-operator-user-configuration-github
     secret:
       name: "user-config-secrets"
       name: "jenkins-conf-secrets"
     enableAutoReload: true
   groovyScripts:
     configurations:
-      - name: jenkins-operator-user-configuration
+      - name: jenkins-operator-user-configuration-github
     secret:
       name: "user-config-secrets"
   master:
@@ -45,7 +45,7 @@ spec:
     - name: configuration-as-code
       version: "1.51"
     - name: kubernetes-credentials-provider
-      version: "0.18-1"
+      version: "0.15"
     - name: github-oauth
       version: "0.33"
     - name: matrix-auth
@@ -68,8 +68,6 @@ spec:
       version: "1.10"
     - name: authorize-project
       version: "1.4.0"
-    - name: oauth-credentials
-      version: "0.4"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
@@ -125,7 +123,7 @@ spec:
     volumes:
     - name: backup # PVC volume where backups will be stored
       persistentVolumeClaim:
-        claimName: backuppvc
+        claimName: backuppvc-github
   backup:
     containerName: backupsecondinstance # container name is responsible for backup
     action:

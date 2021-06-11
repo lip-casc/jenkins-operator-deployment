@@ -14,7 +14,7 @@ stringData:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jenkins-operator-user-configuration
+  name: jenkins-operator-user-configuration-github
 data:
   1-configure-executors.groovy: |
     import jenkins.*
@@ -47,25 +47,16 @@ data:
   3-system-message.yaml: |
     jenkins:
       systemMessage: ${SYSTEM_MESSAGE}
-  4-system-message.yaml: |
+  5-configure-github-auth.yaml: |
     jenkins:
       securityRealm:
-        local:
-          allowsSignup: false
-          users:
-            - id: ${user1-name}
-              password: ${user1-pass}
-            - id: ${user2-name}
-              password: ${user2-pass}
-  5-configure-gitlab-auth.yaml: |
-    jenkins:
-      securityRealm:
-        gitlab:
-          gitlabWebUri: "https://gitlab.com"
-          gitlabApiUri: "https://gitlab.com"
-          clientID: ${tiagofg-gitlab-clientID}
-          clientSecret: ${tiagofg-gitlab-Secret}
-  6-configure-gitlab-authorization.yaml: |
+        github:
+          githubWebUri: "https://github.com"
+          githubApiUri: "https://api.github.com"
+          clientID: "${GITHUB_ID}"
+          clientSecret: "${GITHUB_SECRET}"
+          oauthScopes: "read:org,user:email,repo"
+  6-configure-github-authorization.yaml: |
     jenkins:
       authorizationStrategy:
         globalMatrix:
@@ -73,26 +64,6 @@ data:
             # - "Overall/Read:anonymous"
             - "Overall/Read:authenticated"
             - "Overall/Administer:jenkins-operator" 
-            - "Overall/Administer:tiagofg"
-            - "Overall/Administer:samuellip"
-            - "Overall/Administer:BigHPC"
-  7-configure-gitlab-plugin.yaml: |
-    credentials:
-      system:
-        domainCredentials:
-          - credentials:
-              - gitLabApiTokenImpl:
-                  scope: SYSTEM
-                  id: gitlab_token
-                  apiToken: ${GITLAB_TOKEN}
-                  description: "Gitlab Token"
-    unclassified:
-      gitlabconnectionconfig:
-        connections:
-          - apiTokenId: gitlab_token
-            clientBuilderId: "autodetect"
-            connectionTimeout: 20
-            ignoreCertificateErrors: true
-            name: "my_gitlab_server"
-            readTimeout: 10
-            url: "https://gitlab.com/"
+            - "Overall/Administer:tiagofglip"
+            - "Overall/Administer:samuelbernardolip"
+            - "Overall/Administer:lip-casc"
