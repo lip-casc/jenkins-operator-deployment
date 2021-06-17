@@ -20,14 +20,14 @@ spec:
   configurationAsCode:
     enabled: true
     configurations: 
-    - name: jenkins-operator-user-configuration
+    - name: jenkins-operator-user-configuration-gitlab
     secret:
       name: "user-config-secrets"
       name: "jenkins-conf-secrets"
     enableAutoReload: true
   groovyScripts:
     configurations:
-      - name: jenkins-operator-user-configuration
+      - name: jenkins-operator-user-configuration-gitlab
     secret:
       name: "user-config-secrets"
   master:
@@ -70,6 +70,8 @@ spec:
       version: "1.4.0"
     - name: oauth-credentials
       version: "0.4"
+    - name: generic-webhook-trigger
+      version: "1.74"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
@@ -146,7 +148,9 @@ spec:
         - /home/user/bin/get-latest.sh # this command is invoked on "backup" container to get last backup number before pod deletion. If you don't omit it in CR, you can lose data
   seedJobs:
   - id: jenkins-operator
+    credentialType: usernamePassword
+    credentialID: gitlab-user-pass
     targets: "jobs/*.jenkins"
     description: "Jenkins Operator repository"
     repositoryBranch: main
-    repositoryUrl: https://github.com/lip-casc/jenkins-seed-jobs
+    repositoryUrl: https://gitlab.com/bighpc/ci-cd/jenkins-seed-jobs
