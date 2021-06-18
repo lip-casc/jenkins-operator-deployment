@@ -94,6 +94,10 @@ data:
                   id: gitlab_token
                   apiToken: ${GITLAB_TOKEN}
                   description: "Gitlab Token"
+              - gitlabPersonalAccessToken:
+                  scope: SYSTEM
+                  id: gitlab_jenkins_incd_token
+                  token: ${GITLAB_JENKINS_INCD_TOKEN} # gitlab personal access token
     unclassified:
       gitlabconnectionconfig:
         connections:
@@ -104,3 +108,12 @@ data:
             name: "my_gitlab_server"
             readTimeout: 10
             url: "https://gitlab.com/"
+      gitLabServers:
+        servers:
+          - credentialsId: gitlab_jenkins_incd_token # same as id specified for gitlab personal access token credentials
+            manageWebHooks: true
+            manageSystemHooks: true # access token should have admin access to set system hooks
+            name: "gitlab-BigHPC"
+            serverUrl: "https://gitlab.com"
+            hooksRootUrl: "http://k8st-master.a.incd.pt:32541"
+            secretToken: ""
