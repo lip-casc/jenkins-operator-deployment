@@ -16,7 +16,7 @@ spec:
   service:
     type: "NodePort"
     port: 8080
-    nodePort: 32543
+    nodePort: 32542
   configurationAsCode:
     enabled: true
     configurations: 
@@ -35,7 +35,7 @@ spec:
     - name: kubernetes
       version: "1.28.6"
     - name: workflow-job
-      version: "2.40"
+      version: "2.41"
     - name: workflow-aggregator
       version: "2.6"
     - name: git
@@ -68,6 +68,8 @@ spec:
       version: "1.10"
     - name: authorize-project
       version: "1.4.0"
+    - name: generic-webhook-trigger
+      version: "1.74"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
