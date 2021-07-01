@@ -13,10 +13,10 @@ spec:
         secret:
           name: jenkins-operator-notification-data
         key: url
-  service:
-    type: "NodePort"
-    port: 8080
-    nodePort: 32541
+  # service:
+  #   type: "NodePort"
+  #   port: 8080
+  #   nodePort: 32541
   configurationAsCode:
     enabled: true
     configurations: 
@@ -35,7 +35,7 @@ spec:
     - name: kubernetes
       version: "1.28.6"
     - name: workflow-job
-      version: "2.40"
+      version: "2.41"
     - name: workflow-aggregator
       version: "2.6"
     - name: git
@@ -72,6 +72,8 @@ spec:
       version: "0.4"
     - name: generic-webhook-trigger
       version: "1.74"
+    - name: gitlab-branch-source
+      version: "1.5.7"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
