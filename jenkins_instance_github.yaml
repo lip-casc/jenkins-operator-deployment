@@ -70,6 +70,8 @@ spec:
       version: "1.4.0"
     - name: generic-webhook-trigger
       version: "1.74"
+    - name: cmakebuilder
+      version: "4.0.2"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1

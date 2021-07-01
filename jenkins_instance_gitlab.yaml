@@ -74,6 +74,8 @@ spec:
       version: "1.74"
     - name: gitlab-branch-source
       version: "1.5.7"
+    - name: cmakebuilder
+      version: "4.0.2"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
