@@ -1,30 +1,9 @@
 apiVersion: v1
-kind: Secret
-type: Opaque
-metadata:
-  name: user-config-secrets
-  namespace: jenkins
-stringData:
-  EXECUTORS_AMOUNT: "6"
-  SYSTEM_MESSAGE: "Wellcome to Jenkins!"
-
-
----
-
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: jenkins-operator-user-configuration-gitlab
 data:
-  1-configure-executors.groovy: |
-    import jenkins.*
-    import jenkins.model.*
-    import hudson.*
-    import hudson.model.*
-    Jenkins jenkins = Jenkins.getInstance()
-    jenkins.setNumExecutors(Integer.valueOf(secrets["EXECUTORS_AMOUNT"]))
-    jenkins.save()
-  2-configure-theme.groovy: | 
+  1-configure-theme.groovy: | 
     import jenkins.*
     import jenkins.model.*
     import hudson.*
@@ -44,10 +23,10 @@ data:
     decorator.save();
 
     jenkins.save()
-  3-system-message.yaml: |
+  2-system-message.yaml: |
     jenkins:
-      systemMessage: ${SYSTEM_MESSAGE}
-  4-configure-gitlab-auth.yaml: |
+      systemMessage: "Configuration as Code integration works!!!"
+  3-configure-gitlab-auth.yaml: |
     jenkins:
       securityRealm:
         gitlab:
@@ -69,7 +48,7 @@ data:
   # 5-configure-gitlab-authorization.yaml: |
   #   jenkins:
   #     authorizationStrategy: loggedInUsersCanDoAnything
-  5-configure-gitlab-authorization.yaml: |
+  4-configure-gitlab-authorization.yaml: |
     jenkins:
       authorizationStrategy:
         gitLab:
@@ -84,7 +63,7 @@ data:
           authenticatedUserReadPermission: false
           authenticatedUserStopBuildPermission: false
           useRepositoryPermissions: false
-  6-configure-gitlab-plugin.yaml: |
+  5-configure-gitlab-plugin.yaml: |
     credentials:
       system:
         domainCredentials:
