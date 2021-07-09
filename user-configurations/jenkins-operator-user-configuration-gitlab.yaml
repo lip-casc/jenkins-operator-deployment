@@ -78,6 +78,9 @@ data:
                   id: gitlab_jenkins_incd_token
                   token: ${GITLAB_JENKINS_INCD_TOKEN} # gitlab personal access token
     unclassified:
+      location:
+        url: https://jenkins-gl.bighpc.wavecom.pt/
+        adminAddress: jenkins-incd@lip.pt
       gitlabconnectionconfig:
         connections:
           - apiTokenId: gitlab_token
@@ -94,5 +97,5 @@ data:
             manageSystemHooks: true # access token should have admin access to set system hooks
             name: "gitlab-BigHPC"
             serverUrl: "https://gitlab.com"
-            hooksRootUrl: "http://k8st-master.a.incd.pt:32541"
+            hooksRootUrl: "https://jenkins-gl.bighpc.wavecom.pt/"
             secretToken: ""

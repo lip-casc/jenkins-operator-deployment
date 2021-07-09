@@ -17,13 +17,12 @@ spec:
     configurations: 
     - name: jenkins-operator-user-configuration-gitlab
     secret:
-      name: "user-config-secrets"
-      name: "jenkins-conf-secrets"
+      name: "jenkins-conf-secrets-gitlab"
   groovyScripts:
     configurations:
       - name: jenkins-operator-user-configuration-gitlab
     secret:
-      name: "user-config-secrets"
+      name: "jenkins-conf-secrets-gitlab"
   jenkinsAPISettings:
     authorizationStrategy: createUser
   master:
@@ -42,8 +41,6 @@ spec:
       version: "1.51"
     - name: kubernetes-credentials-provider
       version: "0.18-1"
-    - name: github-oauth
-      version: "0.33"
     - name: matrix-auth
       version: "2.6.7"
     - name: slack

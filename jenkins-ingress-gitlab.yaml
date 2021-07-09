@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-ingress-gitlab
+  namespace: jenkins
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - secretName: jenkins-gitlab-secret
+  rules:
+  - host: jenkins-gl.bighpc.wavecom.pt
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-operator-http-gitlab
+            port:
+              number: 8080
