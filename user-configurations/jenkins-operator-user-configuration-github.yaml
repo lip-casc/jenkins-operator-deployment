@@ -48,3 +48,24 @@ data:
           allowCcTrayPermission: false
           allowAnonymousReadPermission: false
           allowAnonymousJobStatusPermission: false
+  5-configure-github-plugin.yaml: |
+    credentials:
+      system:
+        domainCredentials:
+          - credentials:
+              - string:
+                  scope: SYSTEM
+                  id: github_jenkins_incd_token
+                  secret: ${GITHUB_JENKINS_INCD_TOKEN} # gitlab personal access token
+    unclassified:
+      location:
+        url: https://jenkins-gh.a.incd.pt/
+        adminAddress: jenkins-incd@lip.pt
+      gitHubPluginConfig:
+        configs:
+        - name: "server1"
+          apiUrl: https://api.github.com
+          credentialsId: github_jenkins_incd_token
+          clientCacheSize:
+          manageHooks: true
+        
