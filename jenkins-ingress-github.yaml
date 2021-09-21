@@ -1,20 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jenkins-ingress
+  name: jenkins-ingress-github
   namespace: jenkins
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  tls:
+    - secretName: jenkins-github-secret
   rules:
-  - host: k8st-master.a.incd.pt
+  - host: jenkins-gh.a.incd.pt
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: jenkins-operator-http-gitlab
+            name: jenkins-operator-http-github
             port:
               number: 8080
-
